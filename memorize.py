@@ -4,6 +4,8 @@ import json
 import argparse
 import warnings
 
+
+# Get all the arguments needed for the program to run
 parser = argparse.ArgumentParser(description='mem words')
 parser.add_argument('-mode', dest='mode', default="mem", type=str, help='mem: memorize words, review: review the wrong '
                                                                         'words')
@@ -13,17 +15,7 @@ parser.add_argument('-wordDB', dest='file', default='GRE_2_revised.json', type=s
 parser.add_argument('-userData', dest='userData', default='userData.json', type=str, help='user data file destination')
 args = parser.parse_args()
 
-# with open("GRE_2.json", "r") as f:  # 打开文件
-#     data = f.readlines()  # 读取文件
-#
-# dictList = []
-# for i in data:
-#     strip = json.loads(i)
-#     dictList.append(strip)
-#
-# with open('GRE_2_revised.json', mode='w', encoding='utf-8') as f:
-#     json.dump(dictList, f)
-
+# import
 data = pd.read_json(args.file)
 unknownWords = []
 allWords = []
