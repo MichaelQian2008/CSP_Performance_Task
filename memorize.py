@@ -23,6 +23,24 @@ unknownWords = []
 allWords = []
 choices = []
 
+def insertChoice():
+    count = 0
+    choices.clear()
+    while count < 3:  # make sure that the choices don't reoccur
+        randChoice = random.choice(allWords)
+        if (randChoice not in choices) and randChoice != randWord:  # if the choices repeat
+            choices.append(randChoice)
+            count += 1
+
+    # insert 2 random words from the whole database
+    choices.insert(random.randint(0, 4), data.content.iloc[random.randint(0, 4000)]["word"]["wordHead"])
+    choices.insert(random.randint(0, 5), data.content.iloc[random.randint(0, 4000)]["word"]["wordHead"])
+
+    insertIndex = random.randint(0, 6)  # random the index of answer
+    choices.insert(insertIndex, randWord)  # insert the answer using the index above
+
+    return insertIndex
+
 if args.mode == "mem":
     # missing start or end argument
     if (args.start == -1 or args.end == -1) or (args.start > args.end):
@@ -54,8 +72,8 @@ if args.mode == "mem":
                 print("===============================================================================")
                 print("added to unknown words")
                 print()
-
-        print("You have " + str(len(unknownWords)) + " unknown words. Let's do a test!")
+        if len(unknownWords) != 0:
+            print("You have " + str(len(unknownWords)) + " unknown words. Let's do a test!")
 
 while len(unknownWords) > 0:
     randWord = random.choice(unknownWords)  # choose a word from the list
@@ -63,20 +81,8 @@ while len(unknownWords) > 0:
         if data.content.iloc[i]["word"]["wordHead"] == randWord:  # find the word in the database
             print("===============================================================================")
             print(data.content.iloc[i]["word"]["content"]["trans"][0]["tranOther"])
-            count = 0
-            choices.clear()
-            while count < 3:  # make sure that the choices don't reoccur
-                randChoice = random.choice(allWords)
-                if (randChoice not in choices) and randChoice != randWord:  # if the choices repeat
-                    choices.append(randChoice)
-                    count += 1
 
-            # insert 2 random words from the whole database
-            choices.insert(random.randint(0, 4), data.content.iloc[random.randint(0, 4000)]["word"]["wordHead"])
-            choices.insert(random.randint(0, 5), data.content.iloc[random.randint(0, 4000)]["word"]["wordHead"])
-
-            insertIndex = random.randint(0, 6)  # random the index of answer
-            choices.insert(insertIndex, randWord)  # insert the answer using the index above
+            insertIndex = insertChoice()
 
             for j in range(len(choices)):  # print all the choices
                 print(str(j + 1), choices[j])
