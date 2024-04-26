@@ -47,6 +47,7 @@ if (args.start == -1 or args.end == -1) or (args.start > args.end):
 else:  # if there is argument
     # iterate through the words using pandas iloc by the interval user parsed
     for i in range(args.start, args.end):
+        allWords.append(data.content.iloc[i]["word"]["wordHead"])
         print(i + 1, data.content.iloc[i]["word"]["wordHead"])  # print the word
         isKnownWord = input("y/n: ")
         if isKnownWord == "n":
@@ -89,4 +90,6 @@ while len(unknownWords) > 0:
             if userChoice == insertIndex + 1:
                 print("correct")
                 unknownWords.remove(randWord)  # if correct, remove from list
+            else:
+                print("wrong")
             break  # step out of the for loop
