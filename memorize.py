@@ -40,36 +40,35 @@ def insertChoice():
 
     return insertIndex
 
-    # missing start or end argument
+
+# missing start or end argument
 if (args.start == -1 or args.end == -1) or (args.start > args.end):
     warnings.warn("Please specify the start and end correctly using: -start and -end")
 else:  # if there is argument
     # iterate through the words using pandas iloc by the interval user parsed
     for i in range(args.start, args.end):
-        allWords.append(
-            data.content.iloc[i]["word"]["wordHead"])  # append to allWords list, for further use in the while loop
         print(i + 1, data.content.iloc[i]["word"]["wordHead"])  # print the word
         isKnownWord = input("y/n: ")
         if isKnownWord == "n":
             unknownWords.append(
                 data.content.iloc[i]["word"]["wordHead"])  # append to unknownWords list, for use in the while loop
-            print("===============================================================================")
-            print(data.content.iloc[i]["word"]["wordHead"], end=" ")  # print the word
-            try:
-                print("[" + data.content.iloc[i]["word"]["content"]["phone"] + "]")  # print the phonetics
-            except:
-                print("[" + data.content.iloc[i]["word"]["content"]["ukphone"] + "]")  # print the phonetics
-            print("Meaning: " + data.content.iloc[i]["word"]["content"]["trans"][0][
-                "tranOther"])  # print the meaning in english
-            try:
-                print("Sample Sentence: " + data.content.iloc[i]["word"]["content"]["sentence"]["sentences"][0][
-                    "sContent"])  # print the sample sentence
-            except:
-                print(
-                    "Sample Sentence: Failed: This entry does not have a sample sentence.")  # print if no sample sentence
-            print("===============================================================================")
             print("added to unknown words")
-            print()
+        print("===============================================================================")
+        print(data.content.iloc[i]["word"]["wordHead"], end=" ")  # print the word
+        try:
+            print("[" + data.content.iloc[i]["word"]["content"]["phone"] + "]")  # print the phonetics
+        except:
+            print("[" + data.content.iloc[i]["word"]["content"]["ukphone"] + "]")  # print the phonetics
+        print("Meaning: " + data.content.iloc[i]["word"]["content"]["trans"][0][
+            "tranOther"])  # print the meaning in english
+        try:
+            print("Sample Sentence: " + data.content.iloc[i]["word"]["content"]["sentence"]["sentences"][0][
+                "sContent"])  # print the sample sentence
+        except:
+            print(
+                "Sample Sentence: Failed: This entry does not have a sample sentence.")  # print if no sample sentence
+        print("===============================================================================")
+        print()
     if len(unknownWords) != 0:
         print("You have " + str(len(unknownWords)) + " unknown words. Let's do a test!")
 
